@@ -1,22 +1,17 @@
 // tag::main[]
 
-=== Introduction to Undertow
+=== Undertow를 소개합니다
 
-Undertow is a web server designed to be used for both blocking and non-blocking tasks. Some of its main
-features are:
+Undertow는 블로킹 작업과 논블로킹 작업 모두에 사용될 수 있도록 디자인된 웹서버 입니다. 아래는 Undertow의 주요 기능입니다.
 
-- High Performance
-- Embeddable
-- Servlet 4.0
-- Web Sockets
-- Reverse Proxy
+- 고성능 (High Performance)
+- 프로그램에 내장 가능 (Embeddable)
+- 자바 서블릿 4.0 (Servlet 4.0)
+- 웹소켓 (Web Sockets)
+- 리버스 프록시 (Reverse Proxy)
 
-There and two main ways that Undertow can be used, either by directly embedding it in your code, or as part of the
-link:http://wildfly.org[Wildfly Application Server]. This guide mostly focuses on the embedded API's, although a lot
-of the content is still relevant if you are using Wildfly, it is just that the relevant functionality will generally
-be exposed via XML configuration rather than programatic configuration.
+Undertow는 프로그램 코드에 내장하건, link:http://wildfly.org[Wildfly Application Server] 어플리케이션 서버의 일부로써 사용하는, 두가지 방법이 있습니다. 이 가이드는 대부분의 경우 어플리케이션 내장 서버 API에 초점을 맞추지만, 만약 당신이 Wildfly를 사용하고 있더라도 여전히 관련 있는 내용이며, 그러한 관련 기능들은 프로그래밍 방식의 환경설정 보다는 XML 환경설정 방식으로 노출될 수 있습니다.
 
-The documentation is broken up into two parts, the first part focuses on Undertow code, while the second focuses on
-Servlet.
+이 문서는 Undertow 코드에 중점을 두는 부분과, 서블릿에 중점을 두는 두 부분으로 나뉘어집니다.
 
 // end::main[]

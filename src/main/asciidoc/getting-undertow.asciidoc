@@ -1,21 +1,20 @@
 // tag::main[]
 
-=== Getting Undertow
+=== Undertow 시작하기
 
-There are a few ways to get Undertow.
+Undertow를 시작할 수 있는 방법이 몇 가지 있습니다.
 
 ==== Wildfly
 
-Since version 8.0 Undertow has been the web server component of link:http://wildfly.org[Wildfly]. If you are using Wildfly
-then you already have Undertow.
+link:http://wildfly.org[Wildfly] 버전 8.0부터 Undertow는 Wildfly의 웹 서버 컴포넌트였습니다. 만약 당신이 Wildfly를 사용하고 있다면, 이미 Undertow를 사용하고 있는 것입니다.
 
 ==== Maven
 
-Undertow is built using maven, and is synced to maven central. Undertow provides three seperate artifacts:
+Undertow는 maven을 이용해서 사용할 수 있으며, maven central에 최신 버전이 동기화됩니다. Undertow는 세가지로 나뉘어진 컴포넌트가 제공됩니다.
 
-Core:: Undertow core, which provides support for non blocking handlers and web sockets
-Servlet:: Support for Servlet 4.0
-Websockets JSR:: Support for the 'Java API for Websockets (JSR-356)' standard
+Core:: 넌블로킹 핸들러와 웹소켓이 지원되는 Undertow 코어
+Servlet:: 서블릿 4.0 지원
+Websockets JSR: 'Java API for Websockets (JSR-356)' 표준을 지원
 
 In order to use Undertow in your maven projects just include the following section in your pom.xml, and set the `undertow.version`
 property to whatever version of Undertow you wish to use. Only the core artifact is required, if you are not using
