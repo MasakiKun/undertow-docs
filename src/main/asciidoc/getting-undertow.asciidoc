@@ -8,7 +8,7 @@ Undertow를 시작할 수 있는 방법이 몇 가지 있습니다.
 
 link:http://wildfly.org[Wildfly] 버전 8.0부터 Undertow는 Wildfly의 웹 서버 컴포넌트였습니다. 만약 당신이 Wildfly를 사용하고 있다면, 이미 Undertow를 사용하고 있는 것입니다.
 
-==== Maven
+==== 메이븐
 
 Undertow는 maven을 이용해서 사용할 수 있으며, maven central에 최신 버전이 동기화됩니다. Undertow는 세가지로 나뉘어진 컴포넌트가 제공됩니다.
 
@@ -16,9 +16,7 @@ Core:: 넌블로킹 핸들러와 웹소켓이 지원되는 Undertow 코어
 Servlet:: 서블릿 4.0 지원
 Websockets JSR: 'Java API for Websockets (JSR-356)' 표준을 지원
 
-In order to use Undertow in your maven projects just include the following section in your pom.xml, and set the `undertow.version`
-property to whatever version of Undertow you wish to use. Only the core artifact is required, if you are not using
-Servlet or JSR-356 then those artifacts are not required.
+Maven 프로젝트에서 Undertow를 사용하기 위해서는 pom.xml 파일에 다음 항목을 포함시키고, `undertow.version` 속성에 사용하고자 하는 Undertow의 버전을 지정하십시오.
 
 [source,xml]
 ----
@@ -40,36 +38,34 @@ Servlet or JSR-356 then those artifacts are not required.
 ----
 
 
-==== Direct Download
+==== 직접 다운로드
 
-Undertow can also be directly downloaded from the link:http://mvnrepository.com/search?q=io.undertow[maven repository].
+Undertow는 link:http://mvnrepository.com/search?q=io.undertow[maven 저장소]에서 직접 다운로드 받는 것도 가능합니다.
 
-Undertow depends on link:http://xnio.jboss.org[XNIO] and link:https://github.com/jboss-logging/jboss-logging[JBoss Logging],
-which will need to be downloaded as well.
+Undertow는 link:http://xnio.jboss.org[XNIO]와 link:https://github.com/jboss-logging/jboss-logging[JBoss Logging]에 의존하므로, 이 둘의 다운로드도 필요할 것입니다.
 
-==== Build it yourself
+==== 직접 빌드하기
 
-In order to get the most up to date code you can build Undertow yourself.
+가장 최신 코드를 얻기 위해, Undertow를 직접 빌드할 수도 있습니다.
 
-*Prerequisites*
+*준비사항*
 
-- JDK8 or higher
+- JDK8이나 그 이상 버전
 - Maven 3.1
 - git
 
-Building Undertow is easy, just follow these steps:
+Undertow의 빌드는 쉽습니다. 그냥 아래 단계를 따라가면 됩니다.
 
-Configure Maven::
-Follow the instructions link:https://developer.jboss.org/wiki/MavenGettingStarted-Users[here] to configure Maven to use
-the JBoss Maven repository.
+Maven 설정하기::
+link:https://developer.jboss.org/wiki/MavenGettingStarted-Users[이 문서]를 따라서, Maven이 JBoss Maven 저장소를 사용하도록 설정하세요.
 
-Clone the git repo::
+git 저장소 clone::
 `git clone https://github.com/undertow-io/undertow.git`
 
-Build Undertow::
+Undertow 빌드::
 `cd undertow && mvn install`
 
-The build should run all tests and complete without errors.
+빌드에는 모든 테스트를 수행하고 에러가 없어야 합니다.
 
 [WARNING]
 If you attempt to build with `-Dmaven.test.skip=true` for your initial build the build will fail, as the core test
