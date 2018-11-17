@@ -1,6 +1,6 @@
 // tag::main[]
 
-=== Bootstrapping Undertow
+=== Undertow 부트스트래핑
 
 
 There are two ways to bootstrap Undertow. The first and most simple is to use the `io.undertow.Undertow` builder API.
