@@ -68,8 +68,6 @@ Undertow 빌드::
 빌드에는 모든 테스트를 수행하고 에러가 없어야 합니다.
 
 [WARNING]
-If you attempt to build with `-Dmaven.test.skip=true` for your initial build the build will fail, as the core test
-jar will not be built and the Servlet module has a test scoped dependency on this jar. Either use `-DskipTests`, or
-just let the tests run the first time.
+만약 최초 빌드시에 `-Dmaven.test.skip=true` 파라미터를 주고 빌드를 시도하면 코어 테스트 jar가 빌드되지 않고, 이 jar 파일이 서블릿 모듈의 test scope로 의존성을 갖기 때문에 빌드가 실패하게 됩니다. 대신 `-DskipTests` 파라미터를 주고 빌드를 시도하거나, 첫 빌드시에는 테스트를 실행하세요.
 
 // end::main[]
