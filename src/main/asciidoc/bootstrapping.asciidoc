@@ -2,22 +2,17 @@
 
 === Undertow 부트스트래핑
 
+Undoertow를 부트스트래핑하는 두 가지 방법이 있습니다. 먼저, 가장 간단한 방법은 `io.undertow.Undertow` 빌더 API를 사용하는 것입니다.
+두번째 방법은 XNIO와 Undertow 리스너 클래스를 직접 사용하여 서버를 어셈블하는 것입니다. 이 두번째 방법은 더 많은 코드가 필요하지만 더 유연합니다. 대부분의 경우에는 빌더 API로 충분할 것입니다.
 
-There are two ways to bootstrap Undertow. The first and most simple is to use the `io.undertow.Undertow` builder API.
-The second is to assemble a server using XNIO and the Undertow listener classes directly. This second approach requires
-more code, but gives more flexibility. It is anticipated that for most use cases the builder API will be sufficient.
+Undertow에 대해서 이해하기 위해 중요한 것 중 한가지는 Undertow 컨테이너 라는 개념이 없다는 것입니다.
+Undertow 응용프로그램은 여러 핸들러 클래스에서 어셈블되며, 이러한 모든 핸들러의 라이프 사이클을 관리하는 것은 Undertow를 임베딩한 응용프로그램에 달려 있습니다.
+이는 임베디드 어플리케이션에 최대한 많은 제어 권한을 부여하기 위한 의도적인 설계상의 결정입니다.
+이는 일반적으로 서버 중지시에 정리해야 하는 리소스를 보유한 핸들러가 있는 경우에만 문제가 됩니다.
 
-One thing that it is important to understand about Undertow is that there is not really any concept of an Undertow
-container. Undertow applications are assembled from multiple handler classes, and it is up to the embedding application
-to manage the lifecycle of all the these handlers. This was a deliberate design decision in order to give the embedding
-application as much control as possible. This is generally only an issue if you have handlers that hold resources that
-need to be cleaned up at server stop.
+==== 빌더 API
 
-==== The Builder API
-
-
-The builder API is accessed using the `io.undertow.Undertow` class. We will start by looking at a simple example:
-
+빌더 API는 `io.undertow.Undertow` 클래스를 사용해서 접근할 수 있습니다. 우리는 아래에서, 시작하기 위한 간단한 예제를 살펴볼 것입니다.
 
 [source%nowrap,java]
 ----
@@ -38,25 +33,24 @@ public class HelloWorldServer {
 }
 ----
 
-The above example starts a simple server that returns 'Hello World' to all requests. The server will listen on the
-`localhost` address on port 8080 until the `server.stop()` method is called. When requests arrive they will be handled
-by the first (and only) handler in the handler chain, which in this case simply sets a header and writes some content
-(more information on handlers can be found in the link:undertow-handler-guide.html[handlers guide]).
+위의 예제는 모든 요청에 'Hello World'를 반환하는 간단한 서버를 시작합니다. 서버는 `server.stop()` 메서드가 호출될 때까지 포트 8080의 `localhost` 주소에서 요청을 수신합니다.
+요청을 수신하면 핸들러 체인의 첫번째(이자 지금까지는 유일한) 핸들러에서 요청을 처리합니다.
+이 핸들러에서는 HTTP 헤더를 설정하고 일부 내용을 응답 몸체에 써 넣습니다.
+(핸들러에 대한 자세한 정보는 link:undertow-handler-guide.html[핸들러 가이드]에서 확인할 수 있습니다)
 
-The builder will try and pick sensible defaults for all performance related parameters such as number of threads and
-buffer sizes, however all these can be overridden directly using the builder. These options and their effects are
-detailed in the link:listeners.html[listeners guide], and will not be repeated here.
+빌더는 스레드 개수나 버퍼 크기와 같은 성능 관련 매개변수에 대해 합리적인 기본값을 선택하려고 노력하지만, 빌더를 사용하여 이 모든 매개변수를 직접 오버라이드할 수 있습니다.
+그러한 옵션과 그 효과는 link:listeners.html[리스너 가이드]에서 자세히 설명하므로 여기서는 설명하지 않습니다.
 
-==== Assembling a Server Manually
+==== 수동으로 서버 어셈블
 
-If you do not want to use the builder API then there are a few steps that you need to follow to create a server:
+만약 빌더 API를 사용하지 않는다면 서버를 만들기 위해 따라야 할 몇가지 단계가 있습니다.
 
-. Create an XNIO Worker. This worker manages both the IO and Worker threads for the server.
-. Create an XNIO SSL instance (optional, only required if HTTPS is in use)
-. Create an instance of the relevant Undertow listener class
-. Open a server socket using XNIO and set its accept listener
+. XNIO Worker를 생성합니다. 이 Worker는 서버 IO 및 Worker 스레드 모두를 관리합니다.
+. XNIO SSL 인스턴스를 생성합니다. (선택사항. HTTPS를 사용해야 할 경우에만 필요합니다.)
+. 처리와 관련된 Undertow 리스너 클래스의 인스턴스를 생성합니다.
+. XNIO를 사용해서 서버 소켓을 열고, 요청을 허용할 리스너를 설정합니다.
 
-The code for HTTP, HTTPS and AJP listeners is shown below:
+HTTP, HTTPS 그리고 AJP 리스너의 코드는 다음과 같습니다.
 
 [source%nowrap,java]
 ----
@@ -105,16 +99,14 @@ if (listener.type == ListenerType.AJP) {
 }
 ----
 
-As you can see it is quite a bit more code than just using the builder, however it does provide some flexibility that
-the builder does not:
+보다시피 빌더를 사용하는 것보다 코드가 훨씬 길지만, 빌더가 제공하지 않는 다음과 같은 유연성을 제공합니다.
 
-- Complete control over all options
-- Ability to use different buffer pools and workers for each listener
-- XnioWorker instances can be shared between different server instances
-- Buffer pools can be shared between different server instances
-- Listeners can be given different root handlers
+- 모든 옵션의 완전한 제어
+- 각각의 리스너에 대해 서로 다른 버퍼 풀과 Worker를 지정 가능
+- 다른 서버 인스턴스 간에 XnioWorker 인스턴스를 공유 가능
+- 다른 서버 인스턴스 간에 버퍼 풀 공유 가능
+- 리스너에게 다른 루트 핸들러를 지정 가능
 
-In most cases this level of control is not necessary, and it is better to simply use the builder API.
-
+대부분의 경우에 이 정도의 제어는 필요하지 않으며, 빌더 API를 사용하는 것이 좋습니다.
 
 // end::main[]
