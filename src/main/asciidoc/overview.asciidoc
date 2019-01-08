@@ -1,20 +1,19 @@
 // tag::main[]
 
-=== Architecture Overview
+=== 아키텍처 개요
 
-On thing that makes Undertow unique is that it has no concept of a global 'container'. Instead an Undertow
-server is assembled by the embedding application. This makes Undertow extremely flexible, and the embedding
-application can basically just pick the parts that they need, and assemble them in whatever way makes sense.
+Undertow의 독특한 점은, 글로벌 '컨테이너'의 개념을 가지고 있지 않다는 것입니다. 그 대신, Undertow를 내장한 어플리케이션에서 Undertow 서버를 조립하게 됩니다. 이것은 Undertow를 몹시 유연하게 만들며, Undertow를 내장한 어플리케이션은 필요한 부분을 선택해서 어떤 방식으로든지 조립할 수 있습니다.
 
-An Undertow server is basically composed of three things, one (or more) XNIO worker instance, one or more connectors,
-and a handler chain to handle incoming requests.
+Undertow 서버는 기본적으로, 하나 혹은 그 이상의 XNIO 워커 인스턴스, 하나 혹은 그 이상의 커넥터, 그리고 수신된 요청을 처리하기 위한 핸들러 체인으로 구성됩니다.
 
 ==== XNIO
 
 Undertow is based on XNIO. The XNIO project provides a thin abstraction layer over Java NIO. In particular it provides
 the following:
 
-==== Management of IO and Worker threads
+Undertow는 XNIO 기반입니다. XNIO 프로젝트는 Java NIO보다도 더 얇은 추상 레이어를 제공합니다. 특히 다음과 같은 것들을 제공합니다.
+
+==== IO 및 워커 스레드 관리
 
 The XNIO worker manages both the IO threads, and a thread pool that can be used for blocking tasks. In general non-blocking
 handlers will run from within an IO thread, while blocking tasks such as Servlet invocations will be dispatched to the
