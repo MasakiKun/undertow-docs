@@ -12,15 +12,13 @@ Undertow는 XNIO 기반입니다. XNIO 프로젝트는 Java NIO보다도 더 얇
 
 ==== IO 및 워커 스레드 관리
 
-The XNIO worker manages both the IO threads, and a thread pool that can be used for blocking tasks. In general non-blocking
-handlers will run from within an IO thread, while blocking tasks such as Servlet invocations will be dispatched to the
-worker thread pool.
+XNIO 워커는 블로킹 작업을 수행하는데 사용될 수 있는 스레드풀과 IO 스레드를 모두 관리합니다. 일반적으로 넌블로킹 핸들러는 IO 스레드에서 실행되고, 서블릿과 같은 블로킹 작업은 스레드풀로 보내집니다(while blocking tasks such as Servlet invocations will be dispatched to the worker thread pool).
 
-IO threads run in a loop. This loop does three things:
+IO 스레드는 루프에서 실행됩니다. 이 루프는 다음 세가지 작업을 합니다.
 
- - Run any tasks that have been scheduled for execution by the IO thread
- - Run any scheduled tasks that that have hit their timeout
- - Call Selector.select(), and then invoke any callbacks for selected keys
+ - IO 스레드에 의해 실행이 예약된 작업의 실행
+ - 타임아웃된 예약된 작업의 실행 (Run any scheduled tasks that that have hit their timeout)
+ - Selector.select()를 호출하고, 선택된 키에 해당하는 콜백을 호출 (Call Selector.select(), and then invoke any callbacks for selected keys)
 
 ==== Channel API
 
