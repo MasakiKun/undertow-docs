@@ -20,32 +20,32 @@ IO 스레드는 루프에서 실행됩니다. 이 루프는 다음 세가지 작
  - 타임아웃된 예약된 작업의 실행 (Run any scheduled tasks that that have hit their timeout)
  - Selector.select()를 호출하고, 선택된 키에 해당하는 콜백을 호출 (Call Selector.select(), and then invoke any callbacks for selected keys)
 
-==== Channel API
+==== 채널 API
 
-XNIO provides a channel abstraction, that abstracts away the underlying transport. Channels are notified of events
-using the `ChannelListener` API, and do not have to deal with NIO interest OPs directly. At creation time channels are
-assigned an IO Thread. This is the thread that will be used to execute all ChannelListener invocations for the channel.
+XNIO는 하부(underlying)의 전송을 추상화하는 채널 추상화 기능을 제공합니다.
+채널은 `ChannelListener` API를 사용해서 이벤트를 통지하며, NIO의 관심사를 직접 처리할 필요는 없습니다.
+채널 생성시, 채널에는 IO 스레드가 할당됩니다.
+이 스레드는 채널의 모든 ChannelListener 호출을 실행하는 데 사용되는 스레드입니다.
 
-==== Listeners
+==== 리스너 (Listeners)
 
-The concept of a listener in Undertow is basically the part of Undertow that handles incoming connections, and the
-underlying wire protocol. By default Undertow ships with 5 different listeners:
+Undertow에서의 리스너의 개념은 들어오는 연결(incoming connections)과 하부의 연결 프로토콜(underlying wire protocol)을 처리하는 Undertow의 기본 구성요소입니다.
+기본적으로 Undertow에는 5개의 다른 리스너가 있습니다.
 
 - HTTP/1.1
 - HTTPS
 - AJP
 - HTTP/2
 
-These listeners will generally do all IO in an IO thread using async IO. When a request has been fully parsed they will
-create a `HttpServerExchange` object populated with the request data and then hand this to the handler chain.
+이러한 리스터들은 일반적으로 비동기 IO를 이용해서 IO 스레드에서 모든 IO를 처리합니다.
+요청이 완전히 분석(parsed)되면 요청 데이터로 채워진 `HttpServerExchange` 객체를 생성하여, 이것을 핸들러 체인으로 전달합니다.
 
-Connectors are tied to an XNIO worker. If multiple connectors are setup to invoke the same handler chain they may share
-a Worker, or they may have separate workers, depending on how they have been configured.
+커넥터는 XNIO Worker와 연결됩니다. 만약 여러 핸들러가 같은 핸들러 체인을 호출하도록 설정되어 있는 경우, 어떻게 설정되었는가에 따라서 Worker를 공유할 수도 있고, 별도의 Worker가 있을수도 있습니다.
 
-In general it should not matter to your application the type of connector that is in use, the exception being that not
-all connectors support all features. For example AJP does not support HTTP upgrade.
+일반적으로, 모든 커넥터가 모든 기능을 지원하지 않는다는 점을 제외하고는, 어플리케이션에서 사용중인 커넥터의 종류는 중요하지 않아야 합니다.
+예를 들어, AJP는 HTTP로의 업그레이드를 지원하지 않습니다.
 
-For more information on listeners see the link:listeners.html[listeners guide].
+리스너에 대한 더 자세한 내용은 link:listeners.html[리스너 가이드]를 참조하십시다.
 
 ==== Handlers
 
