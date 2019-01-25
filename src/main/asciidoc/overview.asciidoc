@@ -47,7 +47,7 @@ Undertow에서의 리스너의 개념은 들어오는 연결(incoming connection
 
 리스너에 대한 더 자세한 내용은 link:listeners.html[리스너 가이드]를 참조하십시오.
 
-==== Handlers
+==== 핸들러
 
 The main Undertow functionality is provided by `io.undertow.server.HttpHandler` instances. These handlers can be chained
 together to form a complete server.
