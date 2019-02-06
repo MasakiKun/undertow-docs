@@ -49,10 +49,9 @@ Undertow에서의 리스너의 개념은 들어오는 연결(incoming connection
 
 ==== 핸들러
 
-The main Undertow functionality is provided by `io.undertow.server.HttpHandler` instances. These handlers can be chained
-together to form a complete server.
+Undertow의 주요 기능은 `io.undertow.server.HttpHandler` 인스턴스에서 제공됩니다. 이 핸들러들이 함께 연결되어(be chained) 완전한 서버를 구성할 수 있습니다.
 
-The HttpHandler interface is quite simple:
+HttpHandler 인터페이스는 매우 간단합니다.
 
 [source%nowrap,java]
 ----
@@ -62,10 +61,9 @@ public interface HttpHandler {
 }
 ----
 
-Handlers are generally chained together by explicitly specifying the next handler at construction time, there is no
-'pipeline' concept, which means that a handler can pick the next handler to invoke based on the current request. A
-typical handler might look something like this:
-
+일반적으로 서버 구성시(construction time)에 명시적으로 핸들러에 다음 핸들러가 지정되어 함께 연결됩니다.
+여기에는 '파이프 라인'이라는 개념이 없는데, 이것은 핸들러는 현재 요청을 기반으로 다음에 호출할 핸들러를 선택할 수 있음을 의미합니다.
+일반적인 핸들러는 다음과 같습니다.
 
 [source%nowrap,java]
 ----
