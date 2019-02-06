@@ -1,6 +1,6 @@
 // tag::main[]
 
-=== Listeners
+=== 리스너
 
 Listeners represent the entry point of an Undertow application. All incoming requests will come through a listener, and
 a listener is responsible for translating a request into an instance of the `HttpServerExchange` object, and then
