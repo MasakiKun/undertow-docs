@@ -2,32 +2,22 @@
 
 === 리스너
 
-Listeners represent the entry point of an Undertow application. All incoming requests will come through a listener, and
-a listener is responsible for translating a request into an instance of the `HttpServerExchange` object, and then
-turning the result into a response that can be sent back to the client.
+리스너는 Undertow 어플리케이션의 진입점(entry point)를 나타냅니다. 들어오는 모든 요청은 리스너를 통해 전달되며, 리스너는 요청을 `HttpServerExchange` 객체의 인스턴스로 변환한 다음, 처리 결과를 클라이언트로 보낼 수 있는 응답으로 변환합니다.
 
-Undertow provides 3 built in listener types, HTTP/1.1, AJP and HTTP/2. HTTPS is provided by using the HTTP listener
-with an SSL enabled connection.
+Undertow는 HTTP/1.1, AJP 그리고 HTTP/2의 3가지 빌트인 리스너를 제공합니다. HTTPS는 SSL이 활성화된 연결을 사용하는 HTTP 리스너를 이용하여 제공됩니다.
 
-Undertow also supports version 1 of the proxy protocol, which can be combined with any of the above listener types by
-setting `useProxyProtocol` to true on the listener builder.
+또한 Undertow는 위에서 나열한 어떤 리스너 유형과도 결합할 수 있는 프록시 프로토콜 버전 1을 지원합니다. (프록시 프로토콜을 사용하기 위해서는) 리스너 빌더에서 `useProxyProtocol`을 true로 설정합니다.
 
 
-==== Options
+==== 옵션
 
-Undertow listeners can be configured through the use of the `org.xnio.Option` class. In general options for XNIO that
-control connection and worker level behaviour are listed in `org.xnio.Options`. Undertow specific options that control
-connector level behaviour are listed in `io.undertow.UndertowOptions`.
+Undertow 리스너는 `org.xnio.Option` 클래스를 사용해서 설정할 수 있습니다. 연결과 워커 레벨 동작을 제어하는 XNIO의 일반적인 옵션은 `org.xnio.Options` 클래스에 나열되어 있습니다. 연결 제벨 동작을 제어하는 Undertow의 특정 옵션들은 `io.undertow.UndertowOptions`에 나열되어 있습니다.
 
-==== XNIO workers
+==== XNIO 워커
 
-All listeners are tied to an XNIO Worker instance. Usually there will only be a single worker instance that is shared
-between listeners, however it is possible to create a new worker for each listener.
+모든 리스너들은 XNIO 워커 인스턴스에 연결됩니다. 일반적으로 (XNIO 워커는) 리스너들 간에 공유되는 단일 워커 인스턴스만 있지만, 각각의 리스너마다 새로운 워커를 만들어줄 수도 있습니다.
 
-The worker instance manages the listeners IO threads, and also the default blocking task thread pool. There are several
-main XNIO worker options that affect listener behaviour. These option can either be specified on the Undertow builder
-as worker options, or at worker creating time if you are bootstrapping a server manually. These options all reside on
-the `org.xnio.Options` class.
+워커 인스턴스는 리스너의 IO 스레드와 기본 블로킹 작업 스레드 풀을 관리합니다. 리스너의 동작에 영향을 미치는 몇몇 주요 XNIO 워커 옵션이 있습니다. 이 옵션들은 Undertow 빌더에서 워커 옵션으로 지정할 수도 있고, 수동으로 서버를 부트스트래핑하는 경우 워커 생성시에 지정할 수도 있습니다. 이 옵션들은 모두 `org.xnio.Options` 클래스에 들어있습니다.
 
 WORKER_IO_THREADS::
 The number of IO threads to create. IO threads perform non blocking tasks, and should never perform blocking operations
